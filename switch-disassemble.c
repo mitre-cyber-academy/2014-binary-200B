@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <openssl/md5.h>
 
-bool isCorrect(int a[], int n);
+bool isCorrect(int a[]);
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
   bool pass = 0;
   int i = 0;
   char check;
-
+  
   puts("Enter ten characters...");
   
   do {
@@ -63,7 +63,7 @@ int main()
             break;
           case 9:
             printf(" Done\n");
-            pass = isCorrect(arr, 9);
+            pass = isCorrect(arr);
             break;
           default:
             printf("What?");
@@ -81,19 +81,27 @@ int main()
 }
 
 
-bool isCorrect(int a[], int n)
+bool isCorrect(int a[])
 {
-  char combo[n+1];
-  unsigned char md5sum[MD5_DIGEST_LENGTH];
+  char combo[11];
+  unsigned char transfer[MD5_DIGEST_LENGTH];
+  char md5sum[33];
 
-  for(int i = 0; i < n; i++)
+  for(int i = 0; i < 10; i++)
   {
-    combo[i] = a[i] + '0';
+    sprintf(&combo[i], "%d", a[i]);
   }
 
-  MD5(combo, strlen(combo), md5sum);
+  combo[10] = '\0';
 
-  if(strcmp(md5sum, "\x08\xf2\x4a\xa4\x7e\xa2\xad\xd2\x7b\x73\xe3\x3b\x0f\x8e\xe2\xf3") == 0)
+  MD5((unsigned char*) &combo, strlen(combo), (unsigned char*) &transfer);
+
+  for(int i = 0; i < 16; i++)
+  {
+    sprintf(&md5sum[i*2], "%02x", (unsigned int)transfer[i]);
+  }
+
+  if(strcmp(md5sum, "9252dbaf507078d3ee4e491d0e7cc716") == 0)
   {
     puts("Granted!");
     return 1;
