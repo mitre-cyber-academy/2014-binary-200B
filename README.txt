@@ -5,6 +5,6 @@ Once the code is translated, the user will have to find the the correct combinat
 
 Solution: The correct ordering of characters is: 0452168739
 
-To compile: gcc -m32  -Wall -lssl -lcrypto switch-disassemble.c -o switch
+To compile: gcc -m32  -Wall switch-disassemble.c -o switch -lssl -lcrypto
 
 Key: MCA-5FCB1730
